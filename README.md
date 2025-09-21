@@ -71,8 +71,13 @@ This tool makes it easy to send messages and files without writing code — just
 
 $ ./discord-webhook.sh
 Insert Webhook URL: https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz
+
 Insert Text Message: Hello from my Bash tool!
+
 Do you want to attach a file? (y/n): y
+
 Enter path to the file/image: ./image.png
+
 📤 Sending message with file...
+
 ✅ Sent message with attachment.
