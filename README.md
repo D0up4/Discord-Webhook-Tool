@@ -4,6 +4,10 @@ A lightweight, interactive Bash script to send messages and file attachments to 
 
 ---
 
+## 📰 Update 
+
+- Added a feature that allows you to send the same message as many times as desired
+
 ## 🚀 Features
 
 - Simple and intuitive interactive prompts
