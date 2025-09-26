@@ -14,6 +14,13 @@ if [[ -z "$MESSAGE" ]]; then
     exit 1
 fi
 
+# Ask how many times to send the message
+read -p "How many times do you want to send the message? (amount): " AMOUNT
+if ! [[ "$AMOUNT" =~ ^[0-9]+$ ]]; then
+    echo "❌ Invalid amount. Please enter a number."
+    exit 1
+fi
+
 # Ask if user wants to upload a file
 read -p "Do you want to attach a file? (y/n): " ATTACH_FILE
 
@@ -26,18 +33,21 @@ if [[ "$ATTACH_FILE" == "y" || "$ATTACH_FILE" == "Y" ]]; then
 
     echo "📤 Sending message with file..."
 
-    curl -s -X POST "$WEBHOOK_URL" \
-        -F "file1=@$FILE_PATH" \
-        -F "payload_json={\"content\": \"$MESSAGE\"}"
+    for ((i = 1; i <= AMOUNT; i++)); do
+        curl -s -X POST "$WEBHOOK_URL" \
+            -F "file1=@$FILE_PATH" \
+            -F "payload_json={\"content\": \"$MESSAGE\"}"
+        echo "✅ ($i/$AMOUNT) Sent message with attachment."
+    done
 
-    echo "✅ Sent message with attachment."
 else
     echo "📤 Sending message without file..."
 
-    curl -s -H "Content-Type: application/json" \
-        -X POST \
-        -d "{\"content\": \"$MESSAGE\"}" \
-        "$WEBHOOK_URL"
-
-    echo "✅ Sent message without attachment."
+    for ((i = 1; i <= AMOUNT; i++)); do
+        curl -s -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"content\": \"$MESSAGE\"}" \
+            "$WEBHOOK_URL"
+        echo "✅ ($i/$AMOUNT) Sent message without attachment."
+    done
 fi
